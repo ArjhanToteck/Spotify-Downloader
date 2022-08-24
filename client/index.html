@@ -1,0 +1,14 @@
+<input id="playlistLink" placeholder="Playlist link">
+<button onclick="downloadPlaylist()">Download</button>
+<br>
+<span id="progress"></span>
+
+<script>
+	const server = "https://Spotify-Playlist-Downloader.arjhantoteck.repl.co";
+
+	function downloadPlaylist() {
+		let playlistId = playlistLink.value.split("playlist/")[1].split("?")[0];
+
+		window.open(server + "/downloadPlaylist?" + playlistId, "_blank");
+	}
+</script>

@@ -44,6 +44,8 @@ let server = http.createServer(function(req, res) {
 						})
 						.then((response) => response.json())
 						.then((data) => {
+							console.log("\n\nStarted downloading playlist " + data.name + " at " + new Date().toLocaleString())
+							
 							// loads first 100 songs into tracks object
 							tracks = data.tracks.items;
 
@@ -61,7 +63,7 @@ let server = http.createServer(function(req, res) {
 											},
 										})
 										.then((response) => response.json())
-										.then((newData) => {
+										.then((newData) => {											
 											// adds next 100 songs to array
 											tracks = tracks.concat(newData.items);
 
@@ -70,20 +72,21 @@ let server = http.createServer(function(req, res) {
 												fetchNext(newData.next);
 											} else {
 												// if there are no more songs, it starts to load them from youtube
-												getYoutubeLinks(tracks);
+												getYoutubeLinks(tracks, data.name);
 											}
 										});
 								}
 							} else {
 								// if there are no more songs, it starts to load them from youtube
-								getYoutubeLinks(tracks);
+								getYoutubeLinks(tracks, data.name);
 							}
 						});
 				});
 		}
 
 		// gets youtube links to spotify songs
-		async function getYoutubeLinks(tracks) {
+		async function getYoutubeLinks(tracks, name) {
+			console.log("Loaded playlist data");
 
 			let links = [];
 
@@ -110,16 +113,28 @@ let server = http.createServer(function(req, res) {
 				// counts another finished song
 				finishedSongs++;
 
+				console.log("Loaded url for " + tracks[i].track.name);
+
 				// checks if all songs loaded
 				if (finishedSongs == tracks.length) {
-					downloadSongs(links, tracks);
+					downloadSongs(links, tracks, name);
 				}
 			}
 		}
 
-		async function downloadSongs(links, tracks) {
+		async function downloadSongs(links, tracks, name) {
 			// creates stream for zip file
 			let archive = archiver("zip");
+
+			// pipes zip file to output on http server
+			res.writeHead(200, {
+				"Access-Control-Allow-Origin": "*",
+				"Content-Type": "application/zip",
+				"Content-Disposition": `attachment; filename="${name}.zip"`,
+				"Keep-Alive": "timeout=5, max=9999999"
+			});
+
+			archive.pipe(res);
 
 			// loops through links
 			loop();
@@ -154,17 +169,6 @@ let server = http.createServer(function(req, res) {
 					}
 				});
 			}
-
-			// pipes zip file to output on http server
-			res.writeHead(200, {
-				"Access-Control-Allow-Origin": "*",
-				"Content-Type": "application/zip",
-				//"Content-Length": contentLength,
-				"Content-Disposition": "attachment; filename=\"playlist.zip\"",
-				"Keep-Alive": "timeout=5, max=9999999"
-			});
-
-			archive.pipe(res);
 
 			/*// saves zip file
 			let id = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);

@@ -1,7 +1,47 @@
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-68J35F2R6N"></script>
+    <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+
+     gtag('config', 'G-68J35F2R6N');
+    </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify Downloader | ArjhanToteck</title>
+  <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+  <link rel="icon" href="/favicon.png">
+</head>
+
+<h1 class="glitch" data-text="Spotify Downloader">Spotify Downloader</h1>
+
+I started making this Spotify playlist downloader for a reason you might not expect. I have premium, so I don't need it to listen offline. However, GTA IV has this feature where you can import custom music for their radio, so obviously, I had no choice but to write a 200-line program that could download my entire 300 song playlist just so I could listen to it while doing drive-bys in GTA IV.
+
+<br>
+<br>
+
+We can just ignore that and pretend I just made it for all my homies without premium though. Enjoy.
+
+<br>
+<br>
+
 <input id="playlistLink" placeholder="Playlist link">
+<br>
+Convert via FFmpeg (this may fix broken audio but significantly slow download speed): <input id="ffmpeg" type="checkbox">
+<br>
+<br>
 <button onclick="downloadPlaylist()">Download</button>
 <br>
 <span id="progress"></span>
+
+<br>
+<br>
+
+If you're a nerd like me and wanna see the source, <a href="https://github.com/ArjhanToteck/Spotify-Downloader">here</a>'s the GitHub repo.
 
 <script>
 	const server = "https://Spotify-Playlist-Downloader.arjhantoteck.repl.co";
@@ -9,6 +49,6 @@
 	function downloadPlaylist() {
 		let playlistId = playlistLink.value.split("playlist/")[1].split("?")[0];
 
-		window.open(server + "/downloadPlaylist?" + playlistId, "_blank");
+		window.open(server + "/downloadPlaylist" + (ffmpeg.checked ? "Ffmpeg" : "") + "?" + playlistId, "_blank");
 	}
 </script>

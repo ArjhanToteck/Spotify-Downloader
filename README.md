@@ -1,5 +1,5 @@
 # Spotify-Downloader
-I started making this Spotify playlist downloader for a reason you might not expect. I have premium, so I don't need it to listen offline. However, GTA IV has this feature where you can import custom music for their radio, so obviously, I had no choice but to write a 200-line program that could download my entire 300 song playlist just so I could listen to it while doing drive-bys in GTA IV.
+I started making this Spotify playlist downloader for a reason you might not expect. I have premium, so I don't need it to listen offline. However, GTA has this feature where you can import custom music for their radio, so obviously, I had no choice but to write a 200-line program that could download my entire 300 song playlist just so I could listen to it while doing drive-bys in GTA.
 
 We can just ignore that and pretend I just made it for all my homies without premium though. Enjoy.
 

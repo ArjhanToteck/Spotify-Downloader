@@ -5,3 +5,5 @@ We can just ignore that and pretend I just made it for all my homies without pre
 
 # How It Works
 This literally just sends the playlist link to a server. The server then gets a list of every song in the playlist and looks them up on YouTube. It downloads the audio from there and then compresses them into a ZIP file before sending it to the client.
+
+TODO: make an app version of this too bc my server can't convert all these to mp4s, also incorporate Invidious as an option
